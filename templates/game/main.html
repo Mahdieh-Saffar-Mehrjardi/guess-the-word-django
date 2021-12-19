@@ -1,0 +1,32 @@
+{% load static %}
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="{% static 'game/css/main.css' %}">
+    <title>Guess the word</title>
+</head>
+<body>
+    <h2>بازی حدس کلمه</h2>
+    <p>یک حرف از کلمه مورد نظر جا افتاده است، آن را حدس بزنید.</p>
+    <div class="container">
+        {% for harf in data %}
+            {% if harf != '_'%}
+                <div class="harf">
+                    <h3>{{ harf }}</h3>
+                </div>
+            {% else %}
+                <form action="{% url 'game:guess_word' %}" method="post" id="form1">{% csrf_token %}
+                    <input type="text" name="harf_receive" maxlength="1" required>
+                    <input type="hidden" name="harf_send" value="{{ harf_send }}">
+                </form>
+            {% endif %}
+        {% endfor %}
+    </div>
+    <button type="submit" form="form1">بررسی</button>
+
+</body>
+</html>
